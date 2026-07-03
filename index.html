@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>QR 스캐너</title>
+<title>2027 SIC 출입QR 스캐너</title>
+<meta property="og:title" content="2027 SIC 출입QR 스캐너">
+<meta property="og:description" content="여기를 눌러 카메라로 QR을 스캔하세요.">
+<meta property="og:type" content="website">
 <style>
   * { box-sizing: border-box; }
   body {
@@ -52,7 +55,7 @@
   .result-title { font-size: 28px; font-weight: 800; margin-bottom: 12px; color: #111; }
   .result-name { font-size: 20px; font-weight: 700; color: #111; }
   .result-sub { font-size: 14px; color: #666; margin-top: 2px; margin-bottom: 4px; }
-  .result-detail { color: #22c55e; font-weight: 700; font-size: 15px; margin-top: 4px; }
+  .result-detail { color: #16a34a; font-weight: 700; font-size: 15px; margin-top: 10px; text-align: left; line-height: 1.9; }
 
   .btn-next {
     margin-top: 24px; width: 100%; background: #111; color: #fff;
@@ -73,7 +76,7 @@
 </style>
 </head>
 <body>
-  <div class="top-bar">QR 스캐너 - 화면을 QR코드에 비춰주세요</div>
+  <div class="top-bar">2027 SIC 출입QR 스캐너 - 화면을 QR코드에 비춰주세요</div>
   <div id="reader"></div>
   <div class="checking" id="checking">확인 중...</div>
 
@@ -92,7 +95,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
   <script>
     // ▼▼▼ 배포 후 여기만 본인의 GAS 웹앱 URL로 교체하세요 (끝에 /exec 포함) ▼▼▼
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbzQimSu0m-hYb9Lba2XzRey6GODIZ-wYk0iBhc-1QDkT-8ZHE2yOcAD80poZephu_ww/exec";
+    const GAS_URL = "https://script.google.com/macros/s/여기에_SIC_배포된_스크립트ID/exec";
     // ▲▲▲ 여기만 교체 ▲▲▲
 
     let isProcessing = false;
@@ -158,7 +161,8 @@
         title.textContent = '승인';
         name.textContent = res.name;
         sub.textContent = res.affiliation || '';
-        detail.textContent = res.category;
+        const labels = res.labels || (res.categories ? res.categories.map(function (c) { return c + ' 승인'; }) : []);
+        detail.innerHTML = labels.map(function (l) { return '<div>✓ ' + l + '</div>'; }).join('');
       } else {
         card.className = 'result-card reject';
         icon.className = 'icon reject';
